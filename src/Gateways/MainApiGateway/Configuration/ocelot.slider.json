@@ -1,0 +1,10 @@
+{
+    "Routes": [
+        {
+        "DownstreamPathTemplate": "/api/{everything}",
+        "ServiceName": "slider",
+        "UpstreamPathTemplate": "/api/slider/{everything}",
+        "SwaggerKey": "slider"
+        } 
+    ]
+}

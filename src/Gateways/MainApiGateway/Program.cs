@@ -1,42 +1,71 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using MMLib.Ocelot.Provider.AppConfiguration;
+using Microsoft.OpenApi.Models;
+using MMLib.SwaggerForOcelot.DependencyInjection;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using MMLib.SwaggerForOcelot.DependencyInjection;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-builder.Services.AddControllers();
-builder.Services.AddHealthChecks();
-builder.Services.AddOcelot(builder.Configuration);
-builder.Services.AddSwaggerForOcelot(builder.Configuration);
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseDeveloperExceptionPage();
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+        .AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true)
+        .AddOcelotWithSwaggerSupport((o) =>
+        {
+            o.Folder = "Configuration";
+        })
+        .AddEnvironmentVariables();
+
+    // --- Service Registration ---
+    builder.Services.AddOcelot(builder.Configuration).AddAppConfiguration();
+    builder.Services.AddSwaggerForOcelot(builder.Configuration);
+    builder.Services.AddControllers();
+    builder.Services.AddHealthChecks();
+
+    builder.Services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "ITQ API Gateway", Version = "v1" });
+    });
+
+    // --- Build the App ---
+    var app = builder.Build();
+
+
+    // --- Middleware Pipeline ---
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+
+    app.UseStaticFiles();
+
+    // Map the gateway's own endpoints.
+    app.MapHealthChecks("/health");
+    app.MapControllers();
+
+    // Use Swagger for the gateway's own endpoints
+    app.UseSwagger();
+
+    // Activate the Ocelot middleware and its Swagger UI.
+    app.UseSwaggerForOcelotUI(opt =>
+        {
+            opt.PathToSwaggerGenerator = "/swagger/docs";
+            opt.DownstreamSwaggerHeaders = new[]
+            {
+            new KeyValuePair<string, string>("Key", "Value"),
+            new KeyValuePair<string, string>("Key2", "Value2"),
+            };
+        })
+        .UseOcelot()
+        .Wait();
+
+    // --- Run ---
+    app.Run();
 }
-
-// Явно включаем маршрутизацию, чтобы эндпоинты были определены до Ocelot
-app.UseRouting();
-
-// Используем современный синтаксис для регистрации эндпоинтов, что уберет предупреждение
-app.MapHealthChecks("/health");
-app.MapControllers();
-
-// Добавляем корневой эндпоинт, который будет отвечать на запросы к '/'
-app.MapGet("/", () => "Public Gateway is running");
-
-app.UseSwaggerForOcelotUI(opt =>
+catch (System.AggregateException ex)
 {
-    opt.PathToSwaggerGenerator = "/swagger/docs";
-});
-
-// Ocelot используется в самом конце для всех остальных маршрутов
-await app.UseOcelot();
-
-app.Run();
+    Console.WriteLine(ex.InnerExceptions);
+    throw; // Re-throw the original exception to stop execution if needed
+}

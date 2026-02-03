@@ -1,0 +1,10 @@
+{
+    "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "ServiceName": "news",
+      "UpstreamPathTemplate": "/api/news/{everything}",
+      "SwaggerKey": "news"
+    }
+  ]
+}

@@ -4,7 +4,6 @@ using SliderService.Application.DTOs;
 using SliderService.Application.Services;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Asp.Versioning;
 
 namespace SliderService.Api.Controllers
 {

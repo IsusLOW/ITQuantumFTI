@@ -1,39 +1,47 @@
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.OpenApi;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Shared.Extensions
 {
-    // This class is an operation filter that provides default values for Swagger documents.
-    // It ensures that API version parameters are correctly handled in the Swagger UI.
     public class SwaggerDefaultValues : IOperationFilter
     {
+        /// <summary>
+        /// Applies the filter to the specified operation using the given context.
+        /// </summary>
+        /// <param name="operation">The operation to apply the filter to.</param>
+        /// <param name="context">The current operation filter context.</param>
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            var apiDescription = context.ApiDescription;
+            ApiDescription apiDescription = context.ApiDescription;
 
-            // Use compound assignment for brevity.
-            operation.Deprecated |= apiDescription.IsDeprecated();
+            operation.Deprecated = apiDescription.IsDeprecated();
 
-            if (operation.Parameters == null)
+            if (operation.Parameters is null)
             {
                 return;
             }
 
-            foreach (var parameter in operation.Parameters)
+            // REF: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/412
+            // REF: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/pull/413
+            foreach (NonBodyParameter parameter in operation.Parameters.OfType<NonBodyParameter>())
             {
-                var description = apiDescription.ParameterDescriptions.First(p => p.Name == parameter.Name);
-                
-                // Use null-coalescing assignment for brevity.
-                parameter.Description ??= description.ModelMetadata?.Description;
+                ApiParameterDescription description = apiDescription.ParameterDescriptions.First(p => p.Name == parameter.Name);
 
-                if (parameter.Schema.Default == null && description.DefaultValue != null)
+                if (parameter.Description is null)
                 {
-                    parameter.Schema.Default = new Microsoft.OpenApi.Any.OpenApiString(description.DefaultValue.ToString());
+                    parameter.Description = description.ModelMetadata?.Description;
                 }
 
-                // Use compound assignment for brevity.
+                if (parameter.Default is null)
+                {
+                    parameter.Default = description.DefaultValue;
+                }
+
                 parameter.Required |= description.IsRequired;
             }
         }
