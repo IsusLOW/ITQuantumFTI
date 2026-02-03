@@ -1,0 +1,32 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/slider/{everything}",
+      "DownstreamPathTemplate": "/api/slider/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "SwaggerKey": "slider"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "slider",
+      "Config": [
+        {
+          "Name": "Slider API",
+          "Version": "v1",
+          "Url": "http://localhost:5001/swagger/v1/swagger.json",
+          "TakeServersFromDownstreamService": true
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000"
+  }
+}

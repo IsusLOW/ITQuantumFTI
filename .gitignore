@@ -1,0 +1,26 @@
+# C# files
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio code
+.vscode/
+
+# Rider
+.idea/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+
+# Logs
+*.log
+
+# Secrets
+secrets.json
+appsettings.Secret.json
