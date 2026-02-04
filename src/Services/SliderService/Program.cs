@@ -61,8 +61,9 @@ builder.Services.AddAutoMapper(typeof(SliderProfile));
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseRouting();
-app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+app.MapControllers();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -79,8 +80,6 @@ if (app.Environment.IsDevelopment())
         }
     });
 }
-
-app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 // Map health check endpoint
 app.MapHealthChecks("/health");

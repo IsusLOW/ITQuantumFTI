@@ -32,15 +32,9 @@ namespace Shared.Extensions
             {
                 ApiParameterDescription description = apiDescription.ParameterDescriptions.First(p => p.Name == parameter.Name);
 
-                if (parameter.Description is null)
-                {
-                    parameter.Description = description.ModelMetadata?.Description;
-                }
+                parameter.Description ??= description.ModelMetadata?.Description;
 
-                if (parameter.Default is null)
-                {
-                    parameter.Default = description.DefaultValue;
-                }
+                parameter.Default ??= description.DefaultValue;
 
                 parameter.Required |= description.IsRequired;
             }

@@ -2,11 +2,7 @@ using System.Net;
 
 namespace Shared.Common.Exceptions
 {
-    public sealed class NotFoundException : AppException
+    public sealed class NotFoundException(string resourceName, object key) : AppException($"{resourceName} with identifier '{key}' was not found.", HttpStatusCode.NotFound)
     {
-        public NotFoundException(string resourceName, object key)
-            : base($"{resourceName} with identifier '{key}' was not found.", HttpStatusCode.NotFound)
-        {
-        }
     }
 }

@@ -19,7 +19,7 @@ try
         .AddEnvironmentVariables();
 
     // --- Service Registration ---
-    builder.Services.AddOcelot(builder.Configuration).AddAppConfiguration();
+    builder.Services.AddOcelot().AddAppConfiguration();
     builder.Services.AddSwaggerForOcelot(builder.Configuration);
     builder.Services.AddControllers();
     builder.Services.AddHealthChecks();
@@ -39,19 +39,17 @@ try
         app.UseDeveloperExceptionPage();
     }
 
-    app.UseStaticFiles();
+    app.UseRouting();
+    app.UseSwagger();
 
     // Map the gateway's own endpoints.
     app.MapHealthChecks("/health");
     app.MapControllers();
 
-    // Use Swagger for the gateway's own endpoints
-    app.UseSwagger();
-
     // Activate the Ocelot middleware and its Swagger UI.
+    app.UseStaticFiles();
     app.UseSwaggerForOcelotUI(opt =>
         {
-            opt.PathToSwaggerGenerator = "/swagger/docs";
             opt.DownstreamSwaggerHeaders = new[]
             {
             new KeyValuePair<string, string>("Key", "Value"),
