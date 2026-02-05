@@ -5,6 +5,8 @@ using System;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+using FluentValidation;
+
 
 namespace Shared.Middleware
 {
@@ -25,7 +27,20 @@ namespace Shared.Middleware
         private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
-            
+
+            if (exception is FluentValidation.ValidationException validationException)
+            {
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+                var errors = validationException.Errors
+                    .GroupBy(e => e.PropertyName)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Select(e => e.ErrorMessage).ToArray()
+                    );
+
+                await context.Response.WriteAsJsonAsync(new { errors });
+            }
             if (exception is AppException appException)
             {
                 context.Response.StatusCode = (int)appException.StatusCode;

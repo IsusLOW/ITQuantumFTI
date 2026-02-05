@@ -2,11 +2,8 @@ using System.Net;
 
 namespace Shared.Common.Exceptions
 {
-    public sealed class BadRequestException : AppException
+    public sealed class BadRequestException(string message) 
+        : AppException(message, HttpStatusCode.BadRequest)
     {
-        public BadRequestException(string message)
-            : base(message, HttpStatusCode.BadRequest)
-        {
-        }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Shared.Middleware;
 using Shared.Extensions;
 using SliderService.Config;
+using SliderService.Application.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
