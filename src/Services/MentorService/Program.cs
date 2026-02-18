@@ -73,6 +73,4 @@ if(app.Environment.IsDevelopment())
 
 app.MapHealthChecks("/health");
 
-app.MapControllers();
-
 app.Run();

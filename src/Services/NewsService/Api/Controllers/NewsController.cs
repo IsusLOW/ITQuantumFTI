@@ -18,6 +18,14 @@ namespace NewsService.Api.Controllers
             return Ok(news);
         }
 
+        [HttpGet("paged")]
+        public async Task<ActionResult<IReadOnlyList<NewsDto>>> GetNewsWithPagination([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        {
+            var news = await newsService.GetNewsWithPaginationAsync(pageNumber, pageSize);
+            return Ok(news);
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<NewsDto>> CreateNews([FromBody] CreateNewsDto createNewsDto)
         {

@@ -19,7 +19,7 @@
 
     # Enable previews and define a web preview
     previews = {
-      enable = true;
+      enable = false;
       previews = {
         # This preview will run your services and make the gateway available.
         web = {

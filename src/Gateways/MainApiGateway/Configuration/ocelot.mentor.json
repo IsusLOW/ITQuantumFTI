@@ -4,7 +4,8 @@
       "DownstreamPathTemplate": "/api/{everything}",
       "ServiceName": "mentor",
       "UpstreamPathTemplate": "/api/mentor/{everything}",
-      "SwaggerKey": "mentor"
+      "SwaggerKey": "mentor",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ]
 }

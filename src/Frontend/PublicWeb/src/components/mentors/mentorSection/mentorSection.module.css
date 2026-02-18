@@ -1,0 +1,29 @@
+.backgroundColor {
+    padding: 30px;
+    margin-bottom: 40px;
+    background-image: url(/images/bg.svg);
+    background-size: cover;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+}
+
+.title {
+    font-size: 2.3rem;
+    color: white;
+    font-weight: normal;
+}
+
+.teamSection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.loading {
+    text-align: center;
+    color: white;
+    font-size: 1.1rem;
+    padding: 40px;
+}

@@ -4,7 +4,8 @@
       "DownstreamPathTemplate": "/api/{everything}",
       "ServiceName": "news",
       "UpstreamPathTemplate": "/api/news/{everything}",
-      "SwaggerKey": "news"
+      "SwaggerKey": "news",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ]
 }

@@ -5,7 +5,7 @@
         "DownstreamScheme": "http",
         "ServiceName": "slider",
         "UpstreamPathTemplate": "/api/slider/{everything}",
-        "UpstreamHttpMethod": [],
+        "UpstreamHttpMethod": ["GET"],
         "SwaggerKey": "slider"
         } 
     ]

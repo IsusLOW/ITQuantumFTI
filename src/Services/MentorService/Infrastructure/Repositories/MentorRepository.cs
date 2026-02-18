@@ -12,9 +12,12 @@ namespace MentorService.Infrastructure.Repositories
         {
             new Mentor { Id = 1, FirstName = "Иван", LastName = "Иванов", Description = "Эксперт по C#" },
             new Mentor { Id = 2, FirstName = "Петр", LastName = "Петров", Description = "Знаток архитектуры" },
-            new Mentor { Id = 3, FirstName = "Анна", LastName = "Сидорова", Description = "Профессионал в Azure" }
+            new Mentor { Id = 3, FirstName = "Анна", LastName = "Сидорова", Description = "Профессионал в Azure" },
+            new Mentor { Id = 4, FirstName = "Екатерина", LastName = "Кузнецова", Description = "Специалист по базам данных" },
+            new Mentor { Id = 5, FirstName = "Дмитрий", LastName = "Соколов", Description = "Мастер по фронтенду" },
+            new Mentor { Id = 6, FirstName = "Мария", LastName = "Лебедева", Description = "Гуру DevOps" }
         };
-        private static int _nextId = 4;
+        private static int _nextId = 7;
 
         public Task<IReadOnlyList<Mentor>> GetAllAsync()
         {

@@ -38,6 +38,19 @@
           }
         }
       ]
+    },
+    {
+      "Key": "course",
+      "Config": [
+        {
+          "Name": "Course API",
+          "Version": "v1",
+          "Service": {
+            "Name": "course",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
     }
   ]
 }

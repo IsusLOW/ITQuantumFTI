@@ -29,8 +29,19 @@ try
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "ITQ API Gateway", Version = "v1" });
     });
 
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("ViteDev", policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    });
+
     // --- Build the App ---
     var app = builder.Build();
+    app.UseCors("ViteDev");
 
 
     // --- Middleware Pipeline ---

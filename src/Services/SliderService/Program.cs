@@ -85,6 +85,4 @@ if (app.Environment.IsDevelopment())
 // Map health check endpoint
 app.MapHealthChecks("/health");
 
-app.MapControllers();
-
 app.Run();

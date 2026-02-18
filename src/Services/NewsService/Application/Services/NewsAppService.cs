@@ -26,6 +26,13 @@ namespace NewsService.Application.Services
             return mapper.Map<IReadOnlyList<NewsDto>>(news);
         }
 
+        public async Task<IReadOnlyList<NewsDto>> GetNewsWithPaginationAsync(int pageNumber, int pageSize)
+        {
+            logger.LogInformation("Fetching pagination news");
+            var news = await repository.GetWithPaginationAsync(pageNumber, pageSize);
+            return mapper.Map<IReadOnlyList<NewsDto>>(news);
+        }
+
         public async Task<NewsDto> CreateNewsAsync(CreateNewsDto dto)
         {
             logger.LogDebug("Validating new news item");
