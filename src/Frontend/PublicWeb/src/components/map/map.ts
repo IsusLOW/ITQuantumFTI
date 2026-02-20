@@ -9,18 +9,18 @@ export function Map(): string {
     `;
 }
 
-export async function initMap(containerId: string): Promise<void> {
-    const container = document.getElementById(containerId) as HTMLElement;
+export async function initMap(_containerId: string): Promise<void> {
+    const container = document.getElementById(_containerId) as HTMLElement;
     if (!container) {
-        console.error('❌ Map container не найден:', containerId);
+        console.error('❌ Map container не найден:', _containerId);
         return;
     }
 
     // 🔥 ТОЧНО ваш Blazor JS
-    await initializeMap(containerId);
+    await initializeMap(_containerId);
 }
 
-function initializeMap(containerId: string) {
+function initializeMap(_containerId: string) {
     const mapContainer = document.getElementById('map');
     if (!mapContainer) return;
 

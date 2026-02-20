@@ -1,11 +1,17 @@
 {
-    "Routes": [
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamHostAndPorts": [
         {
-          "DownstreamPathTemplate": "/api/{everything}",
-          "ServiceName": "course",
-          "UpstreamPathTemplate": "/api/course/{everything}",
-          "SwaggerKey": "course",
-          "UpstreamHttpMethod": [ "GET" ]
+          "Host": "localhost",
+          "Port": 5400
         }
-      ]
+      ],
+      "ServiceName": "course",
+      "UpstreamPathTemplate": "/api/course/{everything}",
+      "SwaggerKey": "course",
+      "UpstreamHttpMethod": [ "GET" ]
+    }
+  ]
 }

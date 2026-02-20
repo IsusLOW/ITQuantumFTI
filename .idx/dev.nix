@@ -15,6 +15,7 @@
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
       "google.gemini-cli-vscode-ide-companion"
+      "qwenlm.qwen-code-vscode-ide-companion"
     ];
 
     # Enable previews and define a web preview

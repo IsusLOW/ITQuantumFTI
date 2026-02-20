@@ -1,17 +1,12 @@
-import { SliderNewsItem } from '../../slider/slider';
-import type { NewsDto } from './api/newsTypes';
-import styles from './newsitem.module.css'
+import { SliderNewsItem } from '@/components/slider/slider.js';
+import type { NewsDto } from '@/api/newsApi/newsTypes.js';
+import styles from './newsitem.module.css';
 
 export function NewsItem(newsItem: NewsDto): string {
-    console.log('🔍 NewsItem:', newsItem.id, 'imageUrls:', newsItem.imageUrls); // ← ДОБАВЬ!
-    
+
     const hasMultipleImages = newsItem.imageUrls?.length > 1;
     const smallDesc = newsItem.description.substring(0, 200) + '...';
 
-    if (hasMultipleImages) {
-        console.log('🔥 CREATING SLIDER with:', newsItem.imageUrls.join('|')); // ← ДОБАВЬ!
-    }
-    
     return `
         <section class="${styles.grid}">
             <article class="${styles.gridItem}">
