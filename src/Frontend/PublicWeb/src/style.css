@@ -35,7 +35,12 @@ h1, h2, h3, h4, h5, h6, p {
   font-weight: inherit;
 }
 
-ul, ul li {
+/* Списки без маркеров по умолчанию (для навигации, меню) */
+nav ul, footer ul, .menu ul {
+  list-style: none;
+}
+
+nav ul li, footer ul li, .menu ul li {
   list-style: none;
 }
 
@@ -96,6 +101,9 @@ legend {
 body {
   font-family: 'Roboto', sans-serif;
   overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -103,4 +111,22 @@ body {
   margin: 0 auto;
   padding-left: 20px;
   padding-right: 20px;
+  width: 100%;
+}
+
+/* Header и Footer по ширине container */
+#persistent-header,
+#persistent-footer {
+  width: 100%;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+/* Footer всегда внизу */
+#persistent-footer {
+  margin-top: auto;
 }

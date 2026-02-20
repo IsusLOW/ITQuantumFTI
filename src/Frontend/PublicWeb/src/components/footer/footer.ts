@@ -2,10 +2,10 @@ import styles from './footer.module.css';
 
 /**
  * Генерирует HTML-строку для компонента футера (без active логики).
- * @param {any} props - Пока не используем, но оставляем для совместимости.
+ * @param {_props} - Пока не используем, но оставляем для совместимости.
  * @returns {string} HTML-строка для футера.
  */
-export function Footer(props: any): string {
+export function Footer(_props: any): string {
     return `
         <footer class="${styles.footer}">
             <div class="${styles.container}">

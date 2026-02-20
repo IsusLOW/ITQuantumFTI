@@ -1,14 +1,14 @@
-import { createCourseItem } from '../courseItem/courseItem';
-import type { CourseDto } from './api/courseTypes';
-import { courseApi } from './api/courseApi';
+import { createCourseItem } from '../courseItem/courseItem.js';
+import type { CourseDto } from '@/api/courseApi/courseTypes.js';
+import { courseApi } from '@/api/courseApi/courseApi.js';
 import styles from './courseSection.module.css';
 
-export function CourseSection(): string {
+export function CourseSection(showTitle: boolean = true): string {
     const containerId = `courses-${Math.random().toString(36).slice(2)}`;
     return `
         <div id="${containerId}" class="${styles.root}">
             <div class="container">
-                <div class="${styles.title}">Курсы IT-Квантум</div>
+                ${showTitle ? `<div class="${styles.title}">Курсы IT-Квантум</div>` : ''}
                 <section class="${styles.grid}">
                     <div class="${styles.loading}">Загрузка курсов...</div>
                 </section>
@@ -20,14 +20,11 @@ export function CourseSection(): string {
 export async function initCoursesSection(containerId: string): Promise<void> {
     const container = document.getElementById(containerId) as HTMLElement;
     if (!container) {
-        console.error('❌ Courses container не найден:', containerId);
         return;
     }
 
     try {
-        console.log('🚀 Загружаем курсы для:', containerId);
         const courses: CourseDto[] = await courseApi.getAll();
-        console.log('✅ Получено курсов:', courses.length);
 
         if (!courses.length) {
             const gridSection = container.querySelector(`.${styles.grid}`)!;
@@ -45,10 +42,7 @@ export async function initCoursesSection(containerId: string): Promise<void> {
             item.appendChild(courseCard);
             gridSection.appendChild(item);
         });
-
-        console.log('✅ Курсы отрисованы!');
     } catch (error) {
-        console.error('❌ Ошибка курсов:', error);
         const containerEl = container.querySelector(`.${styles.grid}`)!;
         containerEl.innerHTML = `<div class="${styles.loading}">Ошибка загрузки</div>`;
     }
