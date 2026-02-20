@@ -1,4 +1,4 @@
-import type { MentorDto } from './api/mentorTypes';
+import type { MentorDto } from '@/api/mentorApi/mentorTypes.js';
 import styles from './mentorItem.module.css';
 
 export function createMentorItem(mentor: MentorDto): HTMLElement {

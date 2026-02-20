@@ -53,9 +53,11 @@ try
     app.UseRouting();
     app.UseSwagger();
 
-    // Map the gateway's own endpoints.
-    app.MapHealthChecks("/health");
-    app.MapControllers();
+    // Map health checks and controllers BEFORE Ocelot using UseEndpoints
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapHealthChecks("/health");
+    });
 
     // Activate the Ocelot middleware and its Swagger UI.
     app.UseStaticFiles();
@@ -66,9 +68,11 @@ try
             new KeyValuePair<string, string>("Key", "Value"),
             new KeyValuePair<string, string>("Key2", "Value2"),
             };
-        })
-        .UseOcelot()
-        .Wait();
+        });
+
+    app.UseOcelot().Wait();
+
+    app.MapControllers();
 
     // --- Run ---
     app.Run();

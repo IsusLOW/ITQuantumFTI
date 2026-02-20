@@ -1,5 +1,5 @@
 {
-    "GlobalConfiguration": {
+  "GlobalConfiguration": {
     "BaseUrl": "http://localhost",
     "ServiceDiscoveryProvider": {
       "Type": "AppConfiguration",
