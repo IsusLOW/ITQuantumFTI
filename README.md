@@ -1,3 +1,11 @@
-Get started by customizing your environment (defined in the .idx/dev.nix file) with the tools and IDE extensions you'll need for your project!
+                    ### Tech Stack
 
-Learn more at https://developers.google.com/idx/guides/customize-idx-env
+| Layer                 | Technology                    |
+|-----------------------|-------------------------------|
+| **Backend Framework** | .NET 8 (ASP.NET Core)         |
+| **API Gateway**       | Ocelot with SwaggerForOcelot  |
+| **Frontend**          | TypeScript + Vite             |
+| **Validation**        | FluentValidation              |
+| **Mapping**           | AutoMapper                    |
+| **Documentation**     | Swagger/OpenAPI               |
+| **Development Env**   | Google IDX (Nix-based)        |
