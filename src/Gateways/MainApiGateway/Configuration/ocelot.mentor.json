@@ -1,0 +1,17 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5300
+        }
+      ],
+      "ServiceName": "mentor",
+      "UpstreamPathTemplate": "/api/mentor/{everything}",
+      "SwaggerKey": "mentor",
+      "UpstreamHttpMethod": [ "GET" ]
+    }
+  ]
+}

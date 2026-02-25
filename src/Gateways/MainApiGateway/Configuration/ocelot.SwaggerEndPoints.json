@@ -1,0 +1,104 @@
+{
+  "SwaggerEndPoints": [
+    {
+      "Key": "news",
+      "VersionPlaceholder": "{version}",
+      "KeyToPath": "news",
+      "Config": [
+        {
+          "Name": "News API",
+          "Version": "v1.0",
+          "Url": null,
+          "Service": {
+            "Name": "content",
+            "Path": "/swagger/news-v1.0/swagger.json"
+          }
+        }
+      ],
+      "HostOverride": null,
+      "TransformByOcelotConfig": true,
+      "RemoveUnusedComponentsFromScheme": true,
+      "TakeServersFromDownstreamService": false
+    },
+    {
+      "Key": "slider",
+      "VersionPlaceholder": "{version}",
+      "KeyToPath": "slider",
+      "Config": [
+        {
+          "Name": "Slider API",
+          "Version": "v1.0",
+          "Url": null,
+          "Service": {
+            "Name": "content",
+            "Path": "/swagger/slider-v1.0/swagger.json"
+          }
+        }
+      ],
+      "HostOverride": null,
+      "TransformByOcelotConfig": true,
+      "RemoveUnusedComponentsFromScheme": true,
+      "TakeServersFromDownstreamService": false
+    },
+    {
+      "Key": "gallery",
+      "VersionPlaceholder": "{version}",
+      "KeyToPath": "gallery",
+      "Config": [
+        {
+          "Name": "Gallery API",
+          "Version": "v1.0",
+          "Url": null,
+          "Service": {
+            "Name": "content",
+            "Path": "/swagger/gallery-v1.0/swagger.json"
+          }
+        }
+      ],
+      "HostOverride": null,
+      "TransformByOcelotConfig": true,
+      "RemoveUnusedComponentsFromScheme": true,
+      "TakeServersFromDownstreamService": false
+    },
+    {
+      "Key": "mentor",
+      "VersionPlaceholder": "{version}",
+      "KeyToPath": "mentor",
+      "Config": [
+        {
+          "Name": "Mentor API",
+          "Version": "v1",
+          "Url": null,
+          "Service": {
+            "Name": "mentor",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ],
+      "HostOverride": null,
+      "TransformByOcelotConfig": true,
+      "RemoveUnusedComponentsFromScheme": true,
+      "TakeServersFromDownstreamService": false
+    },
+    {
+      "Key": "course",
+      "VersionPlaceholder": "{version}",
+      "KeyToPath": "course",
+      "Config": [
+        {
+          "Name": "Course API",
+          "Version": "v1",
+          "Url": null,
+          "Service": {
+            "Name": "course",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ],
+      "HostOverride": null,
+      "TransformByOcelotConfig": true,
+      "RemoveUnusedComponentsFromScheme": true,
+      "TakeServersFromDownstreamService": false
+    }
+  ]
+}
