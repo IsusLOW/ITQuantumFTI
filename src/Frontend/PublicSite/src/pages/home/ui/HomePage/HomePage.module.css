@@ -1,0 +1,48 @@
+/* Home Page Styles */
+
+.fullWidthSlider {
+  width: 100%;
+  position: relative;
+  margin-bottom: 48px;
+  /* Резервирование места для LCP элемента - предотвращение CLS */
+  min-height: 600px;
+}
+
+.fullWidthSlider .slider-root {
+  width: 100% !important;
+  max-width: none !important;
+  margin-bottom: 0 !important;
+  height: 100% !important;
+  min-height: 600px !important;
+}
+
+.fullWidthSlider .slider-root > div {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  height: 100% !important;
+}
+
+/* Убираем overflow и border-radius для главного слайдера */
+.fullWidthSlider .slider-root .slider {
+  border-radius: 0 !important;
+  overflow: visible !important;
+}
+
+.fullWidthSlider .slider-root .slide {
+  overflow: visible !important;
+}
+
+.fullWidthSlider .slider-root .sliderTrack {
+  overflow: visible !important;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .fullWidthSlider {
+    min-height: 350px;
+  }
+
+  .fullWidthSlider .slider-root {
+    min-height: 350px !important;
+  }
+}

@@ -1,0 +1,155 @@
+.sliderRoot {
+    width: 100%;
+    height: 600px;
+    margin-bottom: 40px;
+
+    /* Центрирование */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Позиционирование */
+    position: relative;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+.sliderTrack {
+    display: flex;
+    height: 100%;  /* ✅ Полная высота */
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.slide {
+    min-width: 100%;
+    height: 100%;  /* ✅ Полная высота */
+    position: relative;
+}
+
+.slideImage {
+    width: 100%;
+    height: 100%;  /* ✅ Заполняет контейнер */
+    object-fit: cover;  /* ✅ Адаптивное заполнение */
+    display: block;
+    /* Предотвращение CLS - плавное появление */
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.slideImage:not([src]) {
+    opacity: 0;
+}
+
+/* 🔥 КНОПКИ - правильное позиционирование */
+.sliderBtn {
+    position: absolute !important;
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.sliderBtn:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.sliderPrev {
+    left: 20px !important;
+}
+
+.sliderNext {
+    right: 20px !important;
+}
+
+/* Загрузка/ошибки */
+.sliderLoading {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 1.2rem;
+    gap: 16px;
+}
+
+.slideEmpty, .slideError {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.skeletonPlaceholder {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+        90deg,
+        #f0f0f0 25%,
+        #e0e0e0 50%,
+        #f0f0f0 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 12px;
+    z-index: 1;
+}
+
+.sliderLoading span {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.news-slider {
+    /* Ничего! Наследует от родителя */
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .sliderRoot {
+        height: 350px;
+    }
+    
+    .sliderBtn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
