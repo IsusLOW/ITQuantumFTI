@@ -1,0 +1,119 @@
+/*
+  Recreation of the Blazor footer.razor.css styles.
+  Uses a float-based layout and a pseudo-element for the logo to match the original.
+*/
+
+.footer {
+    background: white;
+    height: auto;
+    color: #0c2867;
+    padding: 20px 0 5px;
+}
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.footerTop {
+    overflow: hidden;
+}
+
+.widget_html_block {
+    width: 50%;
+    float: left;
+    text-align: right;
+    margin-left: 24%;
+}
+
+.footerInfo {
+    float: right;
+    text-align: left;
+    font-size: 14px;
+}
+
+.menu {
+    width: 25%;
+    float: left;
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    width: 50%;
+    margin: 0;
+    height: auto;
+    line-height: normal;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.footerMiddle {
+    height: 3px;
+    background: #0c2867;
+    position: relative;
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+
+.footerMiddle:before {
+    content: '';
+    display: block;
+    /* The path to the image is absolute from the public directory */
+    background: url('/images/quant_logo.png'); 
+    height: 130px;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    top: -79px;
+    width: 310px;
+    left: 50%;
+    transform: translateX(-150px);
+    background-color: white;
+    background-size: 300px;
+}
+
+a {
+    color: #0c2867;
+    text-decoration: none;
+}
+
+.footerInfoBox {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.footerInfoBox i {
+    margin-right: 10px;
+}
+
+.footerInfoBlock {
+    margin-top: 5px;
+}
+
+/* Style for the active navigation link */
+.active span {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.valignWrapper {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  gap: 0.1rem;
+}
+
+.topLink {
+  /* Стили для top-link из Blazor */
+}
+
+.valign {
+  display: flex;
+  align-items: center;
+}

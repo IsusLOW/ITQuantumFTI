@@ -1,0 +1,56 @@
+/* ТОЧНО ваш Blazor CSS */
+.hexagon {
+  position: relative;
+  width: 220px;
+  height: 110px;
+  background-color: #0c2867;
+  margin: 72.6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
+  padding: 5px;
+  text-decoration: none;
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  border-left: 110px solid transparent;
+  border-right: 110px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.hexagon:before {
+  bottom: 100%;
+  border-bottom: 72.6px solid #0c2867;
+}
+
+.hexagon:after {
+  top: 100%;
+  border-top: 72.6px solid #0c2867;
+}
+
+.hexagon:hover {
+  background-color: white;
+  color: #0c2867 !important;
+}
+
+.hexagon:hover:before {
+  border-bottom-color: white;
+}
+
+.hexagon:hover:after {
+  border-top-color: white;
+}
+
+a.hexagon { 
+  color: #ffffff !important; 
+}
