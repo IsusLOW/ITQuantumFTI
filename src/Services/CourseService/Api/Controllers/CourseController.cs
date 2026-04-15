@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CourseService.Application.Services;
 using CourseService.Application.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace CourseService.Api.Controllers
@@ -11,6 +12,7 @@ namespace CourseService.Api.Controllers
     public class CourseController(ICourseAppService courseAppService) : ControllerBase
     {
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IReadOnlyList<CourseDto>>> GetCourses()
         {
             var courses = await courseAppService.GetCoursesAsync();

@@ -24,3 +24,6 @@
 # Secrets
 secrets.json
 appsettings.Secret.json
+
+# env
+.env
