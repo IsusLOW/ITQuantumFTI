@@ -3,6 +3,6 @@ import { apiClient } from '@/shared/api/apiClient.js';
 
 export const sliderApi = {
   async getAll(): Promise<SliderDto[]> {
-    return apiClient.get<SliderDto[]>('/slider/v1/Slider');
+    return apiClient.get<SliderDto[]>('/v1/Slider');
   }
 };

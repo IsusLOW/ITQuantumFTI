@@ -1,15 +1,14 @@
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Microsoft.Extensions.Options;
-using ContentService.Config;
-using Shared.Extensions;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using FluentValidation;
 using ContentService.Application.Mapping;
 using ContentService.Application.Repositories;
 using ContentService.Application.Services;
 using ContentService.Infrastructure.Repositories;
 using Shared.Middleware;
-
+using Shared.Config;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMvc(options => options.EnableEndpointRouting = true);
@@ -30,26 +29,8 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
-// swagger configuration
-builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.OperationFilter<SwaggerDefaultValues>();
-
-    // Filter endpoints by controller name and assign to appropriate Swagger doc
-    options.DocInclusionPredicate((version, desc) =>
-    {
-        var controllerName = desc.ActionDescriptor is ControllerActionDescriptor controllerDescriptor
-            ? controllerDescriptor.ControllerName
-            : "";
-
-        if (version == "news-v1.0" && controllerName == "News") return true;
-        if (version == "slider-v1.0" && controllerName == "Slider") return true;
-        if (version == "gallery-v1.0" && controllerName == "Gallery") return true;
-
-        return false;
-    });
-});
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi();
 
 // FluentValidation
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
@@ -63,23 +44,55 @@ builder.Services.AddScoped<IGalleryAppService, GalleryAppService>();
 builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();
 builder.Services.AddAutoMapper(typeof(NewsProfile), typeof(SliderProfile), typeof(GalleryProfile));
 
+var jwtSettingsSection = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(jwtSettingsSection);
+var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
+
+if (string.IsNullOrEmpty(jwtSettings.SecretKey) || jwtSettings.SecretKey.Length < 32)
+{
+    throw new InvalidOperationException("JWT SecretKey must be at least 32 characters!");
+}
+
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = key,
+        ValidateIssuer = true,
+        ValidIssuer = jwtSettings?.Issuer ?? "ITQuantum",
+        ValidateAudience = true,
+        ValidAudience = jwtSettings?.Audience ?? "ITQuantumUsers",
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // custom middleware 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseRouting();
-app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/news-v1.0/swagger.json", "News API V1.0");
-        options.SwaggerEndpoint("/swagger/slider-v1.0/swagger.json", "Slider API V1.0");
-        options.SwaggerEndpoint("/swagger/gallery-v1.0/swagger.json", "Gallery API V1.0");
-    });
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
+
+app.MapControllers();
 
 app.MapHealthChecks("/health");
 

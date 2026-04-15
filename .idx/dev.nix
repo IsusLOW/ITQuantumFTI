@@ -10,7 +10,7 @@
     # pkgs.python311Packages.pip
     # pkgs.nodejs_20
     # pkgs.nodePackages.nodemon
-    pkgs.dotnet-sdk_8
+    pkgs.dotnet-sdk_10
     pkgs.postgresql
     pkgs.nodejs_latest
   ];

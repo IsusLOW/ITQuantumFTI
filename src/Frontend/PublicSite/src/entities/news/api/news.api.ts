@@ -3,12 +3,12 @@ import { apiClient } from '@/shared/api/apiClient.js';
 
 export const newsApi = {
   async getAll(): Promise<NewsDto[]> {
-    return apiClient.get<NewsDto[]>('/news/v1/News');
+    return apiClient.get<NewsDto[]>('/v1/News');
   },
 
   async getById(id: number): Promise<NewsDto | null> {
     try {
-      return await apiClient.get<NewsDto>(`/news/v1/News/${id}`);
+      return await apiClient.get<NewsDto>(`/v1/News/${id}`);
     } catch (error) {
       const allNews = await this.getAll();
       return allNews.find(n => n.id === id) || null;
@@ -20,6 +20,6 @@ export const newsApi = {
       pageNumber: pageNumber.toString(),
       pageSize: pageSize.toString()
     });
-    return apiClient.get<NewsDto[]>(`/news/v1/News/paged?${params}`);
+    return apiClient.get<NewsDto[]>(`/v1/News/paged?${params}`);
   }
 };

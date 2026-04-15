@@ -1,44 +1,26 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5100
-        }
-      ],
+      "DownstreamPathTemplate": "/api/v1/news/{everything}",
       "DownstreamScheme": "http",
       "ServiceName": "content",
-      "UpstreamPathTemplate": "/api/news/{everything}",
+      "UpstreamPathTemplate": "/api/v1/news/{everything}",
       "SwaggerKey": "news",
       "UpstreamHttpMethod": ["GET"]
     },
     {
-      "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5100
-        }
-      ],
+      "DownstreamPathTemplate": "/api/v1/slider/{everything}",
       "DownstreamScheme": "http",
       "ServiceName": "content",
-      "UpstreamPathTemplate": "/api/slider/{everything}",
+      "UpstreamPathTemplate": "/api/v1/slider/{everything}",
       "SwaggerKey": "slider",
       "UpstreamHttpMethod": ["GET"]
     },
     {
-      "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5100
-        }
-      ],
+      "DownstreamPathTemplate": "/api/v1/gallery/{everything}",
       "DownstreamScheme": "http",
       "ServiceName": "content",
-      "UpstreamPathTemplate": "/api/gallery/{everything}",
+      "UpstreamPathTemplate": "/api/v1/gallery/{everything}",
       "SwaggerKey": "gallery",
       "UpstreamHttpMethod": ["GET"]
     }

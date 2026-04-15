@@ -1,7 +1,3 @@
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Microsoft.Extensions.Options;
-using MentorService.Config;
-using Shared.Extensions;
 using FluentValidation;
 using MentorService.Application.Mapping;
 using MentorService.Application.Repositories;
@@ -9,6 +5,11 @@ using MentorService.Application.Services;
 using MentorService.Infrastructure.Repositories;
 using Shared.Middleware;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Shared.Config;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,16 +31,8 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
-// swagger configuration
-builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-builder.Services.AddSwaggerGen(
-    options =>
-    {
-        // add a custom operation filter which sets default values
-        options.OperationFilter<SwaggerDefaultValues>();
-
-        // integrate xml comments
-    });
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi();
 
 // FluentValidation
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
@@ -49,25 +42,55 @@ builder.Services.AddScoped<IMentorAppService, MentorAppService>();
 builder.Services.AddScoped<IMentorRepository, MentorRepository>();
 builder.Services.AddAutoMapper(typeof(MentorProfile));
 
+var jwtSettingsSection = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(jwtSettingsSection);
+var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
+
+if (string.IsNullOrEmpty(jwtSettings.SecretKey) || jwtSettings.SecretKey.Length < 32)
+{
+    throw new InvalidOperationException("JWT SecretKey must be at least 32 characters!");
+}
+
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = key,
+        ValidateIssuer = true,
+        ValidIssuer = jwtSettings?.Issuer ?? "ITQuantum",
+        ValidateAudience = true,
+        ValidAudience = jwtSettings?.Audience ?? "ITQuantumUsers",
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // custom middleware 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseRouting();
-app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
-    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        foreach (ApiVersionDescription description in apiVersionDescriptionProvider.ApiVersionDescriptions)
-        {
-            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-        }
-    });
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
+
+app.MapControllers();
 
 app.MapHealthChecks("/health");
 
