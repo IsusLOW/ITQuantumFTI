@@ -13,6 +13,7 @@
     pkgs.dotnet-sdk_10
     pkgs.postgresql
     pkgs.nodejs_latest
+    pkgs.docker
   ];
   # Sets environment variables in the workspace
   env = {};
